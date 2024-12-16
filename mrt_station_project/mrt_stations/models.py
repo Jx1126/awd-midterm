@@ -2,7 +2,7 @@ from django.db import models
 
 class MRTStation(models.Model):
   name = models.CharField(max_length=100)
-  stop_id = models.CharField(max_length=10, unque = True)
+  stop_id = models.CharField(max_length=10, unique = True)
   line = models.CharField(max_length=10)
   number = models.IntegerField()
   longtitude = models.FloatField()

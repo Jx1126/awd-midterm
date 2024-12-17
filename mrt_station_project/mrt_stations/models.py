@@ -17,3 +17,13 @@ class MRTStation(models.Model):
 
   def __str__(self):
     return self.name
+  
+class MRTRidership(models.Model):
+  year = models.IntegerField()
+  rail_type = models.CharField(max_length=10)
+  rail_length = models.FloatField()
+  average_ridership = models.FloatField(null = True)
+  average_trip_distance = models.FloatField(null = True)
+
+  def __str__(self):
+    return self.rail_type

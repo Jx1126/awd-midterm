@@ -7,3 +7,4 @@ from rest_framework import status
 def getData(request):
   person={'name':'John','age':30}
   return Response(person)
+

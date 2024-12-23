@@ -1,10 +1,11 @@
-import os
-import django
 import csv
-from api.models import Movie, Genre, Director, Star
-
+import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'movies_2023.settings')
+
+import django
 django.setup()
+
+from api.models import Genre, Director, Star, Movie
 
 csv_path = '../csv/2023_movies.csv'
 
@@ -34,18 +35,23 @@ def loadAndStoreData():
         for genre in genres:
           genre_object, _ = Genre.objects.get_or_create(name=genre.strip())
           genre_objects.append(genre_object)
+          movie.genre.set(genre_objects)
 
         directors = row['director'].split(',')
         director_objects = []
         for director in directors:
           director_object, _ = Director.objects.get_or_create(name=director.strip())
           director_objects.append(director_object)
+          movie.director.set(director_objects)
 
         stars = row['stars'].split(',')
         star_objects = []
         for star in stars:
           star_object, _ = Star.objects.get_or_create(name=star.strip())
           star_objects.append(star_object)
+          movie.stars.set(star_objects)
+
+          movie.save()
 
         print(f'{movie.title} added to the database')
   

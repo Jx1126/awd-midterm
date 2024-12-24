@@ -81,9 +81,16 @@ def getMovieByStarOrDirector(request):
     serializer = MovieSerializer(movies, many=True)
     return paginator.get_paginated_response(serializer.data)
 
-# GET request to return all genres
+# Search for movies by title
 @api_view(['GET'])
-def getAllGenres(request):
-    genres = Genre.objects.all()
-    serializer = GenreSerializer(genres, many=True)
-    return Response(serializer.data)
+def searchMovies(request):
+    # Get the search query from the query parameters
+    query = request.query_params.get('query')
+    # Filter the movies by the search query
+    movies = Movie.objects.filter(title__icontains=query)
+
+    paginator = pagination.DataPagination()
+    paginated_movies = paginator.paginate_queryset(movies, request)
+
+    serializer = MovieSerializer(paginated_movies, many=True)
+    return paginator.get_paginated_response(serializer.data)

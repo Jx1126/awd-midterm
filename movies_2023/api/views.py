@@ -10,16 +10,22 @@ def getAllMovies(request):
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
 
+# GET Request to return movies by genre
 @api_view(['GET'])
-def getMovieByGenre(request, genre):
-    genre = Genre.objects.get(name=genre)
-    movies = genre.movies.all()
+def getMovieByGenre(request):
+    # Get the genres from the query parameters
+    genres = request.query_params.getlist('genre')
+
+    genres = [genre.capitalize() for genre in genres]
+
+    movies = Movie.objects.filter(genre__name__in=genres)
+    # Serialize the data and return the response
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def getMovieByStar(request, star):
-    star = Star.objects.get(name=star)
+    star = Star.objects.get(name__iexact=star)
     movies = star.movies.all()
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)

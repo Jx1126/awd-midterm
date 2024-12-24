@@ -7,7 +7,29 @@ from .serializers import MovieSerializer, GenreSerializer, DirectorSerializer, S
 
 @api_view(['GET'])
 def getAllMovies(request):
+    # Get the order from the query parameters
+    order = request.query_params.get('order')
     movies = Movie.objects.all()
+
+    # Order the movies based on the query parameters
+    if order == 'title_asc':
+        movies = movies.order_by('title')
+    elif order == 'title_desc':
+        movies = movies.order_by('-title')
+    elif order == 'release_asc':
+        movies = movies.order_by('release_date')
+    elif order == 'release_desc':
+        movies = movies.order_by('-release_date')
+    elif order == 'rating_asc':
+        movies = movies.order_by('rating')
+    elif order == 'rating_desc':
+        movies = movies.order_by('-rating')
+    elif order == 'runtime_asc':
+        movies = movies.order_by('runtime')
+    elif order == 'runtime_desc':
+        movies = movies.order_by('-runtime')
+    else:
+        movies = movies.order_by('id')
 
     # Paginate the movies
     paginator = pagination.DataPagination()

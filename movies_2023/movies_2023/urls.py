@@ -5,6 +5,6 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.renderHome),
-    path('api/', include('api.urls')),
+    path('movies/', include('api.urls')),
 ]
 

@@ -29,6 +29,8 @@ def getAllMovies(request):
         movies = movies.order_by('runtime')
     elif order == 'runtime_desc':
         movies = movies.order_by('-runtime')
+    elif order == 'id_desc':
+        movies = movies.order_by('-id')
     else:
         movies = movies.order_by('id')
 
@@ -90,23 +92,30 @@ def searchMovies(request):
     # Filter the movies by the search query
     movies = Movie.objects.filter(title__icontains=query)
 
+    # Paginate the movies
     paginator = pagination.DataPagination()
     paginated_movies = paginator.paginate_queryset(movies, request)
 
+    # Serialize the data and return the response
     serializer = MovieSerializer(paginated_movies, many=True)
     return paginator.get_paginated_response(serializer.data)
 
-# POST request to add or delete a movie
+# POST and DELETE request to add or delete a movie
 @api_view(['POST', 'DELETE'])
 def addOrDeleteMovie(request):
+    # Check if the request is a POST or DELETE request
     if(request.method == 'POST'):
+        # Serialize the request data
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
+            # Save the movie to the database if the data is valid
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+        
     elif request.method == 'DELETE':
+        # Get the movie by the id and delete it
         movie = Movie.objects.get(id=request.data['id'])
         movie.delete()
         return Response(message='Movie deleted', status=status.HTTP_200_OK)
-        
+    
+# PUT request to update a movie data

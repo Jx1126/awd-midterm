@@ -6,4 +6,5 @@ urlpatterns = [
     path('genres/', views.getMovieByGenre, name='get-movie-by-genres'),
     path('production/', views.getMovieByStarOrDirector, name='get-movie-by-star-or-director'),
     path('search/', views.searchMovies, name='search-movies'),
+    path('add_delete/', views.addOrDeleteMovie, name='add-delete-movie'),
 ]

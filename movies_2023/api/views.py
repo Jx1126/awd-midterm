@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Movie, Genre, Director, Star
 from .serializers import MovieSerializer, GenreSerializer, DirectorSerializer, StarSerializer
 
+# GET request to return all movies in certain order
 @api_view(['GET'])
 def getAllMovies(request):
     # Get the order from the query parameters
@@ -81,7 +82,7 @@ def getMovieByStarOrDirector(request):
     serializer = MovieSerializer(movies, many=True)
     return paginator.get_paginated_response(serializer.data)
 
-# Search for movies by title
+# GET request to search for movies by title
 @api_view(['GET'])
 def searchMovies(request):
     # Get the search query from the query parameters
@@ -94,3 +95,18 @@ def searchMovies(request):
 
     serializer = MovieSerializer(paginated_movies, many=True)
     return paginator.get_paginated_response(serializer.data)
+
+# POST request to add or delete a movie
+@api_view(['POST', 'DELETE'])
+def addOrDeleteMovie(request):
+    if(request.method == 'POST'):
+        serializer = MovieSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    elif request.method == 'DELETE':
+        movie = Movie.objects.get(id=request.data['id'])
+        movie.delete()
+        return Response(message='Movie deleted', status=status.HTTP_200_OK)
+        

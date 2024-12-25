@@ -69,7 +69,7 @@ class ViewsTestCases(APITestCase):
 
     # Test getMovieByGenre() view function
     def testGetMovieByGenre(self):
-        response = self.client.get('/movies/genres/scifi')
+        response = self.client.get('/movies/genres/Scifi/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'][0]['title'], 'Interstellar')
 

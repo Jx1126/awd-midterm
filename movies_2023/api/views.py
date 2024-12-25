@@ -46,21 +46,45 @@ def getAllMovies(request):
     serializer = MovieSerializer(paginated_movies, many=True)
     return paginator.get_paginated_response(serializer.data)
 
+# # GET request to return movies by genre
+# @api_view(['GET'])
+# def getMovieByGenre(request):
+#     # Get the genres from the query parameters
+#     genres = request.query_params.getlist('genre')
+
+#     # Return an error if no genres are provided in the query parameters
+#     if not genres:
+#         return Response({'error': 'No genres provided. Please provide at least one genre.'}, status=status.HTTP_400_BAD_REQUEST)
+
+#     # Capitalize the firt letter of the genre to match the database
+#     genres = [genre.capitalize() for genre in genres]
+
+#     # Filter the movies by the genre
+#     movies = Movie.objects.filter(genre__name__in=genres)
+
+#     # Return an error if no movies are found for the genres
+#     if not movies.exists():
+#         return Response({'error': 'No movies found for the provided genres.'}, status=status.HTTP_404_NOT_FOUND)
+
+#     # Paginate the movies
+#     paginator = pagination.DataPagination()
+#     paginated_movies = paginator.paginate_queryset(movies.order_by('id'), request)
+
+#     # Serialize the data and return the response
+#     serializer = MovieSerializer(paginated_movies, many=True)
+#     return paginator.get_paginated_response(serializer.data)
+
 # GET request to return movies by genre
 @api_view(['GET'])
-def getMovieByGenre(request):
-    # Get the genres from the query parameters
-    genres = request.query_params.getlist('genre')
-
-    # Return an error if no genres are provided in the query parameters
+def getMovieByGenre(request, genres):
     if not genres:
-        return Response({'error': 'No genres provided. Please provide at least one genre.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'No genre provided. Please provide a genre.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Capitalize the firt letter of the genre to match the database
-    genres = [genre.capitalize() for genre in genres]
+    # Split the genres by comma and capitalize the first letter of each genre
+    genres = [genre.strip().capitalize() for genre in genres.split(',')]
 
-    # Filter the movies by the genre
-    movies = Movie.objects.filter(genre__name__in=genres)
+    # Filter the movies by the genres and prevent duplicate movies
+    movies = Movie.objects.filter(genre__name__in=genres).distinct()
 
     # Return an error if no movies are found for the genres
     if not movies.exists():
@@ -160,4 +184,12 @@ def updateMovie(request, movie_id):
         # Save the updated movie data if it is valid
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def addMovie(request):
+    serializer = MovieSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

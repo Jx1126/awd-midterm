@@ -68,7 +68,7 @@ def getMovieByGenre(request):
 
     # Paginate the movies
     paginator = pagination.DataPagination()
-    paginated_movies = paginator.paginate_queryset(movies, request)
+    paginated_movies = paginator.paginate_queryset(movies.order_by('id'), request)
 
     # Serialize the data and return the response
     serializer = MovieSerializer(paginated_movies, many=True)
@@ -100,10 +100,10 @@ def getMovieByStarOrDirector(request):
 
     # Paginate the movies
     paginator = pagination.DataPagination()
-    paginated_movies = paginator.paginate_queryset(movies, request)
+    paginated_movies = paginator.paginate_queryset(movies.order_by('id'), request)
 
     # Serialize the data and return the response
-    serializer = MovieSerializer(movies, many=True)
+    serializer = MovieSerializer(paginated_movies, many=True)
     return paginator.get_paginated_response(serializer.data)
 
 # GET request to search for movies by title
@@ -125,7 +125,7 @@ def searchMovies(request):
 
     # Paginate the movies
     paginator = pagination.DataPagination()
-    paginated_movies = paginator.paginate_queryset(movies, request)
+    paginated_movies = paginator.paginate_queryset(movies.order_by('id'), request)
 
     # Serialize the data and return the response
     serializer = MovieSerializer(paginated_movies, many=True)

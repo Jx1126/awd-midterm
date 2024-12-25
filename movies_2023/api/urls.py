@@ -7,5 +7,5 @@ urlpatterns = [
     path('production/', views.getMovieByStarOrDirector, name='get-movie-by-star-or-director'),
     path('search/', views.searchMovies, name='search-movies'),
     path('delete/<int:movie_id>/', views.deleteMovie, name='delete-movie'),
-    path('update/<int:movie_id>/', views.updateMovie, name='update-movie'),
+    path('add/', views.addMovie, name='add-movie'),
 ]

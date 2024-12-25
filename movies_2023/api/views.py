@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from . import pagination
 from rest_framework import status
-from .models import Movie
+from .models import *
 from .serializers import MovieSerializer
 
 # GET request to return all movies in certain order
@@ -45,34 +45,6 @@ def getAllMovies(request):
     # Serialize the data and return the response
     serializer = MovieSerializer(paginated_movies, many=True)
     return paginator.get_paginated_response(serializer.data)
-
-# # GET request to return movies by genre
-# @api_view(['GET'])
-# def getMovieByGenre(request):
-#     # Get the genres from the query parameters
-#     genres = request.query_params.getlist('genre')
-
-#     # Return an error if no genres are provided in the query parameters
-#     if not genres:
-#         return Response({'error': 'No genres provided. Please provide at least one genre.'}, status=status.HTTP_400_BAD_REQUEST)
-
-#     # Capitalize the firt letter of the genre to match the database
-#     genres = [genre.capitalize() for genre in genres]
-
-#     # Filter the movies by the genre
-#     movies = Movie.objects.filter(genre__name__in=genres)
-
-#     # Return an error if no movies are found for the genres
-#     if not movies.exists():
-#         return Response({'error': 'No movies found for the provided genres.'}, status=status.HTTP_404_NOT_FOUND)
-
-#     # Paginate the movies
-#     paginator = pagination.DataPagination()
-#     paginated_movies = paginator.paginate_queryset(movies.order_by('id'), request)
-
-#     # Serialize the data and return the response
-#     serializer = MovieSerializer(paginated_movies, many=True)
-#     return paginator.get_paginated_response(serializer.data)
 
 # GET request to return movies by genre
 @api_view(['GET'])
@@ -167,29 +139,42 @@ def deleteMovie(request, movie_id):
     # Return an error if the movie does not exist
     except Movie.DoesNotExist:
         return Response({'error': 'Movie does not exist.'}, status=status.HTTP_404_NOT_FOUND)
-    
-# PUT request to update a movie data
-@api_view(['PUT'])
-def updateMovie(request, movie_id):
-    try:
-        # Get the movie by the id
-        movie = Movie.objects.get(id=movie_id)
-    # Return an error if the movie does not exist
-    except Movie.DoesNotExist:
-        return Response({'error': 'Movie does not exist.'}, status=status.HTTP_404_NOT_FOUND)
-    
-    # Serialize the request data and allow partial updates
-    serializer = MovieSerializer(movie, data=request.data, partial=True)
-    if serializer.is_valid():
-        # Save the updated movie data if it is valid
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# POST request to add a new movie
 @api_view(['POST'])
 def addMovie(request):
-    serializer = MovieSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+    try:
+        data = request.data
+
+        # Process genres
+        genre_objects = []
+        for genre in data.get('genre', []):
+            genre_object, _ = Genre.objects.get_or_create(id=genre['id'], defaults={'name': genre['name']})
+            genre_objects.append(genre_object.id)
+
+        # Process directors
+        director_objects = []
+        for director in data.get('director', []):
+            director_object, _ = Director.objects.get_or_create(id=director['id'], defaults={'name': director['name']})
+            director_objects.append(director_object.id)
+
+        # Process stars
+        star_objects = []
+        for star in data.get('stars', []):
+            star_object, _ = Star.objects.get_or_create(id=star['id'], defaults={'name': star['name']})
+            star_objects.append(star_object.id)
+
+        # Create the movie
+        movie = Movie.objects.create(title=data['title'], release_date=data.get('release_date'), run_time=data.get('run_time'), rating=data.get('rating'), introduction=data.get('introduction', ''))
+        # Add many-to-many relationships
+        movie.genre.set(genre_objects)
+        movie.director.set(director_objects)
+        movie.stars.set(star_objects)
+
+        # Serialize the created movie
+        serializer = MovieSerializer(movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+

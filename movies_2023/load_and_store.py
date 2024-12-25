@@ -23,12 +23,7 @@ def loadAndStoreData():
 
         movie, created = Movie.objects.get_or_create(
         title = row['title'].strip(),
-        defaults = {
-          'release_date': release_date,
-          'run_time': run_time,
-          'rating': rating,
-          'introduction': introduction
-        })
+        defaults = {'release_date': release_date, 'run_time': run_time, 'rating': rating, 'introduction': introduction})
 
         genres = row['genre'].split(',')
         genre_objects = []

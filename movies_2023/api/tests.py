@@ -33,8 +33,19 @@ class SerializersTestCases(APITestCase):
 
     # Test the Movie serializer
     def testMovieSerializer(self):
+        data = {
+            'id': 1,
+            'title': 'Interstellar',
+            'release_date': '2023-11-26',
+            'run_time': 169,
+            'rating': '8.7',
+            'introduction': 'When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.',
+            'genre': [{'id': 1, 'name': 'Scifi'}],
+            'director': [{'id': 1, 'name': 'Christopher Nolan'}],
+            'stars': [{'id': 1, 'name': 'Matthew McConaughey'}]
+        }
         serializer = MovieSerializer(self.movie)
-        self.assertEqual(serializer.data, {'id': 1, 'title': 'Interstellar', 'release_date': '2023-11-26', 'run_time': 169, 'rating': '8.7', 'introduction': 'When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.', 'genre': [{'id': 1, 'name': 'Scifi'}], 'director': [{'id': 1, 'name': 'Christopher Nolan'}], 'stars': [{'id': 1, 'name': 'Matthew McConaughey'}]})
+        self.assertEqual(serializer.data, data)
 
 class ViewsTestCases(APITestCase):
   
@@ -88,27 +99,27 @@ class ViewsTestCases(APITestCase):
     # Test addMovie() view function
     def testAddMovie(self):
         data = {
-            "title": "Top Gun: Maverick",
-            "release_date": "2023-11-26",
-            "run_time": 131,
-            "rating": "8.2",
-            "introduction": "Thirty years of service leads Maverick to train a group of elite TOPGUN graduates to prepare for a high-profile mission while Maverick battles his past demons.",
-            "genre": [
+            'title': 'Top Gun: Maverick',
+            'release_date': '2023-11-26',
+            'run_time': 131,
+            'rating': '8.2',
+            'introduction': 'Thirty years of service leads Maverick to train a group of elite TOPGUN graduates to prepare for a high-profile mission while Maverick battles his past demons.',
+            'genre': [
                 {
-                    "id": 2,
-                    "name": "Action"
+                    'id': 2,
+                    'name': 'Action'
                 }
             ],
-            "director": [
+            'director': [
                 {
-                    "id": 2,
-                    "name": "Joseph Kosinski"
+                    'id': 2,
+                    'name': 'Joseph Kosinski'
                 }
             ],
-            "stars": [
+            'stars': [
                 {
-                    "id": 2,
-                    "name": "Tom Cruise"
+                    'id': 2,
+                    'name': 'Tom Cruise'
                 }
             ]
         }

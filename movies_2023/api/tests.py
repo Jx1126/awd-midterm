@@ -85,8 +85,37 @@ class ViewsTestCases(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Movie.objects.filter(id=self.movie.id).exists())
 
-    # Test updateMovie() view function
-    def testUpdateMovie(self):
-        response = self.client.put('/movies/update/1/', {'title': 'Interstellar 2'}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Movie.objects.get(id=self.movie.id).title, 'Interstellar 2')
+    # Test addMovie() view function
+    def testAddMovie(self):
+        data = {
+            "title": "Top Gun: Maverick",
+            "release_date": "2023-11-26",
+            "run_time": 131,
+            "rating": "8.2",
+            "introduction": "Thirty years of service leads Maverick to train a group of elite TOPGUN graduates to prepare for a high-profile mission while Maverick battles his past demons.",
+            "genre": [
+                {
+                    "id": 2,
+                    "name": "Action"
+                }
+            ],
+            "director": [
+                {
+                    "id": 2,
+                    "name": "Joseph Kosinski"
+                }
+            ],
+            "stars": [
+                {
+                    "id": 2,
+                    "name": "Tom Cruise"
+                }
+            ]
+        }
+
+        response = self.client.post('/movies/add/', data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(Movie.objects.filter(title='Top Gun: Maverick').exists())
+        self.assertTrue(Genre.objects.filter(name='Action').exists())
+        self.assertTrue(Director.objects.filter(name='Joseph Kosinski').exists())
+        self.assertTrue(Star.objects.filter(name='Tom Cruise').exists())

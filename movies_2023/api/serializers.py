@@ -22,4 +22,4 @@ class MovieSerializer(serializers.ModelSerializer):
     stars = StarSerializer(many=True) 
     class Meta:
         model = Movie
-        fields = ['title', 'release_date', 'run_time', 'rating', 'introduction', 'genre', 'director', 'stars']
+        fields = ['id', 'title', 'release_date', 'run_time', 'rating', 'introduction', 'genre', 'director', 'stars']

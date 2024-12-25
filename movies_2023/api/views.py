@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from . import pagination
 from rest_framework import status
-from .models import Movie, Genre, Director, Star
-from .serializers import MovieSerializer, GenreSerializer, DirectorSerializer, StarSerializer
+from .models import Movie
+from .serializers import MovieSerializer
 
 # GET request to return all movies in certain order
 @api_view(['GET'])
@@ -99,16 +99,25 @@ def searchMovies(request):
     # Serialize the data and return the response
     serializer = MovieSerializer(paginated_movies, many=True)
     return paginator.get_paginated_response(serializer.data)
+
+# DELETE request to delete a movie
+@api_view(['DELETE'])
+def deleteMovie(request, movie_id):
+    # Get the movie by the id
+    movie = Movie.objects.get(id=movie_id)
+    # Delete the movie
+    movie.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
     
 # PUT request to update a movie data
 @api_view(['PUT'])
-def updateMovie(request):
+def updateMovie(request, movie_id):
     # Get the movie by the id
-    movie = Movie.objects.get(id=request.data['id'])
-    # Serialize the request data
+    movie = Movie.objects.get(id=movie_id)
+    # Serialize the request data and allow partial updates
     serializer = MovieSerializer(movie, data=request.data, partial=True)
     if serializer.is_valid():
-        # Save the updated movie data
+        # Save the updated movie data if it is valid
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

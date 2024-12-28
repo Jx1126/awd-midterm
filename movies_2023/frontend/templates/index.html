@@ -65,7 +65,7 @@
 
         <div class="endpoint__description">
             <p><strong>Method: </strong>GET</p>
-            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/production/?star=[STAR] or http://127.0.0.1:8000/movies/production/?director=[DIRECTOR]</p>
+            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/production/?star=[STAR'S NAME] or http://127.0.0.1:8000/movies/production/?director=[DIRECTOR'S NAME]</p>
             <p>This endpoint allows users to filter movies based on a specific star or director by providing either the star or director query parameter. Both parameters can also be provided with a <code>&</code> in between to filter movies that match both criteria.</p>
         </div>
 
@@ -86,12 +86,12 @@
 
         <div class="endpoint__description">
             <p><strong>Method: </strong>GET</p>
-            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/search/?query=[QUERY]</p>
+            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/search/?query=[SEARCH QUERY]</p>
             <p>This endpoint allows users to search for movies by providing keywords in the title. It performs a case-insensitive match, returning all movies that include the specified keyword.</p>
         </div>
 
         <div class="endpoint__url">
-            <strong>Example: </strong><a href="http://127.0.0.1:8000/movies/search/?query=mario/">http://127.0.0.1:8000/movies/search/?query=mario/</a>
+            <strong>Example: </strong><a href="http://127.0.0.1:8000/movies/search/?query=mario">http://127.0.0.1:8000/movies/search/?query=mario</a>
         </div>
     </div>
     
@@ -104,12 +104,13 @@
         </div>
 
         <div class="endpoint__description">
-            <p><strong>Method: </strong>POST</p>
-            <p><strong>URL: </strong>http://</p>
+            <p><strong>Method: </strong>DELETE</p>
+            <p><strong>URL: </strong>http://http://127.0.0.1:8000/movies/delete/[MOVIE ID]</p>
+            <p>This endpoint deletes a specific movie from the database by the movie ID provided in the URL.</p>
         </div>
 
         <div class="endpoint__url">
-            <strong>Example: </strong><a href="http://">http://</a>
+            <strong>Example: </strong><a href="http://127.0.0.1:8000/movies/delete/2995/">http://127.0.0.1:8000/movies/delete/2995/</a>
         </div>
     </div>
 

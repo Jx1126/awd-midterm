@@ -25,7 +25,7 @@
             <p><strong>Method: </strong>GET</p>
             <p><strong>URL: </strong>http://127.0.0.1:8000/movies/all/[?order=OPTIONAL]</p>
             <p>This endpoint retrieves all movies, displaying them in a sets of 10 per page. When accessed without query parameter, the movies are sorted in ascending order by their IDs.</p>
-            <p>To customise the sorting order, you can use the optional query parameter <code>?order=</code>. This parameter allows you to modify the sorting option.</p>
+            <p>To customise the sorting order, users can use the optional query parameter <code>?order=</code>. This parameter allows users to modify the sorting option based on their preference.</p>
             <p>Available sorting options are: <code>id_asc</code>, <code>id_desc</code>, <code>title_asc</code>, <code>title_desc</code>, <code>release_asc</code>, <code>release_desc</code>, <code>rating_asc</code>, <code>rating_desc</code>, <code>runtime_asc</code>, <code>runtime_desc</code>, <code>id_asc</code>, <code>id_desc</code>.</p>
         </div>
 
@@ -46,7 +46,7 @@
         <div class="endpoint__description">
             <p><strong>Method: </strong>GET</p>
             <p><strong>URL: </strong>http://127.0.0.1:8000/movies/genres/[GENRE]/</p>
-            <p>This endpoint retrieves all movies associated with the specified genre(s). You can specify one or multiple genres by separating them with comma in the URL.</p>
+            <p>This endpoint retrieves all movies associated with the specified genre(s). Users can specify one or multiple genres by separating them with comma in the URL.</p>
         </div>
 
         <div class="endpoint__url">
@@ -65,14 +65,14 @@
 
         <div class="endpoint__description">
             <p><strong>Method: </strong>GET</p>
-            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/production/?[star=NAME] or http://127.0.0.1:8000/movies/production/?[director=NAME]</p>
+            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/production/?star=[STAR] or http://127.0.0.1:8000/movies/production/?director=[DIRECTOR]</p>
             <p>This endpoint allows users to filter movies based on a specific star or director by providing either the star or director query parameter. Both parameters can also be provided with a <code>&</code> in between to filter movies that match both criteria.</p>
         </div>
 
         <div class="endpoint__url">
             <strong>Example (star): </strong><a href="http://127.0.0.1:8000/movies/production/?star=artyom bystrov">http://127.0.0.1:8000/movies/production/?star=artyom bystrov/</a><br>
-            <strong>Example (director): </strong><a href="http://127.0.0.1:8000/movies/production/?director=Edoardo Leo">http://127.0.0.1:8000/movies/production/?director=Edoardo Leo</a><br>
-            <strong>Example (star and director): </strong><a href="http://127.0.0.1:8000/movies/production/?star=Juwel Chowdhury&director=Juwel Chowdhury">http://127.0.0.1:8000/movies/production/?star=Juwel Chowdhury&director=Juwel Chowdhury</a>
+            <strong>Example (director): </strong><a href="http://127.0.0.1:8000/movies/production/?director=edoardo leo">http://127.0.0.1:8000/movies/production/?director=edoardo leo</a><br>
+            <strong>Example (star and director): </strong><a href="http://127.0.0.1:8000/movies/production/?star=juwel chowdhury&director=juwel chowdhury">http://127.0.0.1:8000/movies/production/?star=juwel chowdhury&director=juwel chowdhury</a>
         </div>
     </div>
 
@@ -86,11 +86,12 @@
 
         <div class="endpoint__description">
             <p><strong>Method: </strong>GET</p>
-            <p><strong>URL: </strong>http://</p>
+            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/search/?query=[QUERY]</p>
+            <p>This endpoint allows users to search for movies by providing keywords in the title. It performs a case-insensitive match, returning all movies that include the specified keyword.</p>
         </div>
 
         <div class="endpoint__url">
-            <strong>Example: </strong><a href="http://">http://</a>
+            <strong>Example: </strong><a href="http://127.0.0.1:8000/movies/search/?query=mario/">http://127.0.0.1:8000/movies/search/?query=mario/</a>
         </div>
     </div>
     

@@ -48,13 +48,31 @@ body {
     font-size: 18px;
 }
 
-.endpoint__url > a {
+a {
     color: blue;
     font-size: 18px;
     font-weight: bold;
     text-decoration: none;
 }
 
-.endpoint__url > a:hover {
+a:hover {
     text-decoration: underline;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.information__title {
+    color: #2E3440;
+    font-weight: bold;
+    font-size: 23px !important;
+}
+
+.information > ul > li {
+    font-size: 18px;
+    color: #2C3440;
+    margin: 5px 0;
 }

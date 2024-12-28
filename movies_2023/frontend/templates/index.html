@@ -1,20 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'style.css' %}">
-  </head>
-  <body>
-    
-    <h1>Rest Endpoints</h1>
+</head>
+<body>
 
-    <p>GET http://localhost:8000/api/genres/all - Returns all the genres</p>
-    <a href="http://localhost:8000/api/genres/all">http://localhost:8000/api/genres/all</a>
+    <div class="header">
+        <h1 class="header__title">CM3035 - Advanced Web Development RESTful Endpoints</h1>
+    </div>
 
-  </body>
+
+    <div class="endpoint">
+        <div class="endpoint__title">
+            1. Retrieve All Movies
+        </div>
+
+        <div class="endpoint__description">
+            <p><strong>Method: </strong>GET</p>
+            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/all/[?order=optional]</p>
+            <p>This endpoint retrieves all movies, displaying them in a sets of 10 per page. When accessed without query parameter, the movies are sorted in ascending order by their IDs.</p>
+            <p>To customise the sorting order, you can use the optional query parameter <code>?order=</code>. This parameter allows you to modify the sorting option.</p>
+            <p>Available sorting options are: <code>id_asc</code>, <code>id_desc</code>, <code>title_asc</code>, <code>title_desc</code>, <code>release_asc</code>, <code>release_desc</code>, <code>rating_asc</code>, <code>rating_desc</code>, <code>runtime_asc</code>, <code>runtime_desc</code>, <code>id_asc</code>, <code>id_desc</code>.</p>
+        </div>
+
+        <div class="endpoint__url">
+            <strong>Example: </strong><a href="http://127.0.0.1:8000/movies/all/?order=rating_desc">http://127.0.0.1:8000/movies/all/?order=rating_desc</a>
+        </div>
+
+    </div>
+
+</body>
 </html>

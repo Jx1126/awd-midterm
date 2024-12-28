@@ -124,11 +124,14 @@
 
         <div class="endpoint__description">
             <p><strong>Method: </strong>POST</p>
-            <p><strong>URL: </strong>http://</p>
+            <p><strong>URL: </strong>http://127.0.0.1:8000/movies/add/</p>
+            <p>This endpoint creates a form where users can add a movie to the database by providing its details in JSON format.</p>
+            <p>The data will be validated by the serializer, and if valid, the movie will be added to the database.</p>
+            <p>If no ID is specified, the movie will automatically be added as the last entry in the database with automatically generated primary key ID. If an ID is specified, the movie will be added to that specific ID if there is no conflict with an existing record.</p>
         </div>
 
         <div class="endpoint__url">
-            <strong>Example: </strong><a href="http://">http://</a>
+            <strong>Example: </strong><a href="http://127.0.0.1:8000/movies/add/">http://127.0.0.1:8000/movies/add/</a>
         </div>
     </div>
 
